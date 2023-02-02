@@ -389,9 +389,6 @@ endif
 libphy:
 	$(MAKE) -C ${LIBS_DIR}/RF-PHY-closed/${TARGET_UC}/build/gcc
 
-phyclean:
-	$(MAKE) -C ${LIBS_DIR}/RF-PHY-closed/${TARGET_UC}/build/gcc clean
-
 -include libphy
 
 all: libphy
@@ -399,10 +396,13 @@ all: libphy
 	arm-none-eabi-size --format=berkeley $(BUILD_DIR)/$(PROJECT).elf
 
 libclean: 
-	$(MAKE)  -f ${PERIPH_DRIVER_DIR}/periphdriver.mk clean.periph
+	$(MAKE) -f ${PERIPH_DRIVER_DIR}/periphdriver.mk clean.periph
+
+phyclean:
+	$(MAKE) -C ${LIBS_DIR}/RF-PHY-closed/${TARGET_UC}/build/gcc clean.all
 
 clean: 
 #	Extend the functionality of the "clean" recipe here
 
 # The rule to clean out all the build products.
-distclean: clean libclean phyclean
+distclean: clean libclean

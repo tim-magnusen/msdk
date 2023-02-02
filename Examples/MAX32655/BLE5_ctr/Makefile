@@ -385,15 +385,26 @@ MAKECMDGOALS:=$(.DEFAULT_GOAL)
 endif
 
 
-all:
+.PHONY: libphy
+
+libphy:
+	$(MAKE) -C ${LIBS_DIR}/RF-PHY-closed/${TARGET_UC}/build/gcc
+
+-include libphy
+
+all: libphy
 # 	Extend the functionality of the "all" recipe here
 	arm-none-eabi-size --format=berkeley $(BUILD_DIR)/$(PROJECT).elf
 
 libclean: 
-	$(MAKE)  -f ${PERIPH_DRIVER_DIR}/periphdriver.mk clean.periph
-	
+	$(MAKE) -f ${PERIPH_DRIVER_DIR}/periphdriver.mk clean.periph
+
+phyclean:
+	$(MAKE) -C ${LIBS_DIR}/RF-PHY-closed/${TARGET_UC}/build/gcc clean.all
+
 clean: 
 #	Extend the functionality of the "clean" recipe here
 
 # The rule to clean out all the build products.
 distclean: clean libclean
+
